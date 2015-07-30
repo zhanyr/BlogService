@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       default-autowire="byName">
+
+       <context:component-scan base-package="com.blog.blogService"/>
+
+       <!--引入配置文件-->
+       <!--<context:property-placeholder location="classpath:conf/dataSource.properties" ignore-unresolvable="true"/>-->
+       <!--<context:property-placeholder location="classpath:conf/redisConf.properties" ignore-unresolvable="true"/>-->
+
+       <!--引入配置文件-->
+       <bean id="propertiesConf" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+              <property name="locations">
+                     <list>
+                            <value>classpath*:conf/dataSource.properties</value>
+                            <value>classpath*:conf/redisConf.properties</value>
+                     </list>
+              </property>
+              <property name="ignoreUnresolvablePlaceholders" value="true" />
+       </bean>
+
+
+       <!--配置数据源-->
+       <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+              <property name="url" value="${connectionURL}" />
+              <property name="username" value="${username}" />
+              <property name="password" value="${password}" />
+
+              <property name="maxActive" value="20" />
+              <property name="initialSize" value="1" />
+              <property name="maxWait" value="60000" />
+              <property name="minIdle" value="1" />
+
+              <property name="timeBetweenEvictionRunsMillis" value="3000" />
+              <property name="minEvictableIdleTimeMillis" value="300000" />
+
+              <property name="validationQuery" value="SELECT 'x' FROM DUAL" />
+              <property name="testWhileIdle" value="true" />
+              <property name="testOnBorrow" value="false" />
+              <property name="testOnReturn" value="false" />
+              <!-- mysql 不支持 poolPreparedStatements-->
+              <!--<property name="poolPreparedStatements" value="true" />-->
+              <!--<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />-->
+
+              <!-- 开启Druid的监控统计功能 -->
+              <property name="filters" value="stat" />
+
+       </bean>
+
+       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+              <property name="dataSource" ref="dataSource" />
+              <property name="configLocation" value="classpath:mybatis/mybatisConfig.xml"></property>
+              <property name="mapperLocations">
+                     <array>
+                            <value>classpath*:mybatis/sqlmap/*.xml</value>
+                     </array>
+              </property>
+       </bean>
+
+       <!--redis-->
+
+       <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+              <property name="maxIdle" value="200" />
+              <property name="maxWait" value="1500"/>
+              <property name="testOnBorrow" value="true" />
+       </bean>
+
+       <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+              <constructor-arg index="0" ref="jedisPoolConfig"/>
+              <constructor-arg index="1">
+                     <list>
+                            <bean name="slaver" class="redis.clients.jedis.JedisShardInfo">
+                                   <constructor-arg index="0" value="${redisSlaverHost}"/>
+                                   <constructor-arg index="1" value="${redisSlaverPort}"/>
+                            </bean>
+                            <bean name="master" class="redis.clients.jedis.JedisShardInfo">
+                                   <constructor-arg index="0" value="${redisMasterHost}"/>
+                                   <constructor-arg index="1" value="${redisMasterPort}"/>
+                            </bean>
+                     </list>
+              </constructor-arg>
+       </bean>
+
+
+</beans>

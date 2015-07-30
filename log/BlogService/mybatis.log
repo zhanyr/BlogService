@@ -1,0 +1,4 @@
+2015-07-30 19:46:40 DEBUG LogFactory:124 - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2015-07-30 19:48:31 DEBUG LogFactory:124 - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2015-07-30 19:50:13 DEBUG LogFactory:124 - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+2015-07-30 19:51:20 DEBUG LogFactory:124 - Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.

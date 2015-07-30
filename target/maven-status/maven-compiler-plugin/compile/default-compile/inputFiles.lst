@@ -1,0 +1,9 @@
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/blogService/cache/IBlogCache.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/blogService/controller/Handler.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/finagle/thrift/blogService/BlogService.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/blogService/cache/impl/BlogCache.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/blogService/model/pojo/User.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/finagle/thrift/result/BooleanResult.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/finagle/thrift/result/FailDesc.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/finagle/thrift/result/Result.java
+/Users/zhanyr/workspace/BlogService/src/main/java/com/blog/blogService/model/mapper/UserMapper.java
